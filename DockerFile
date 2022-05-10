@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-	MAINTAINER ksp27695.kp@gmail.com
+MAINTAINER ksp27695.kp@gmail.com
 
 RUN apt-get update && apt-get install -y curl software-properties-common
 RUN apt install openjdk-11-jre-headless -y
