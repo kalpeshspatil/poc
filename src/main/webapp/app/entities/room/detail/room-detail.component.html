@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="room">
+      <h2 data-cy="roomDetailsHeading"><span jhiTranslate="pocApp.room.detail.title">Room</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ room.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="pocApp.room.roomTitle">Room Title</span></dt>
+        <dd>
+          <span>{{ room.roomTitle }}</span>
+        </dd>
+        <dt><span jhiTranslate="pocApp.room.roomDescription">Room Description</span></dt>
+        <dd>
+          <span>{{ room.roomDescription }}</span>
+        </dd>
+        <dt><span jhiTranslate="pocApp.room.roomType">Room Type</span></dt>
+        <dd>
+          <span>{{ room.roomType }}</span>
+        </dd>
+        <dt><span jhiTranslate="pocApp.room.resident">Resident</span></dt>
+        <dd>
+          <div *ngIf="room.resident">
+            <a [routerLink]="['/resident', room.resident?.id, 'view']">{{ room.resident?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/room', room.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

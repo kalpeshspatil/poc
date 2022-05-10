@@ -1,0 +1,23 @@
+entity Resident{
+  residentName String required minlength(3)
+  residentAddress String required minlength(2)
+}
+
+entity Room {
+  roomTitle String required
+  roomDescription TextBlob required
+  roomType String required
+}
+
+entity Facility {
+  facilityName String required minlength(2)
+}
+
+relationship OneToMany {
+ 
+  Resident{room} to Room{resident}
+   Room{facility} to Facility{room}
+}
+
+
+paginate Resident, Room with infinite-scroll

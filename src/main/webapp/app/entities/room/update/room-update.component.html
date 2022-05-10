@@ -1,0 +1,100 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-room-heading" data-cy="RoomCreateUpdateHeading" jhiTranslate="pocApp.room.home.createOrEditLabel">
+        Create or edit a Room
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pocApp.room.roomTitle" for="field_roomTitle">Room Title</label>
+          <input type="text" class="form-control" name="roomTitle" id="field_roomTitle" data-cy="roomTitle" formControlName="roomTitle" />
+          <div *ngIf="editForm.get('roomTitle')!.invalid && (editForm.get('roomTitle')!.dirty || editForm.get('roomTitle')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('roomTitle')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pocApp.room.roomDescription" for="field_roomDescription">Room Description</label>
+          <textarea
+            class="form-control"
+            name="roomDescription"
+            id="field_roomDescription"
+            data-cy="roomDescription"
+            formControlName="roomDescription"
+          ></textarea>
+          <div
+            *ngIf="
+              editForm.get('roomDescription')!.invalid &&
+              (editForm.get('roomDescription')!.dirty || editForm.get('roomDescription')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('roomDescription')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pocApp.room.roomType" for="field_roomType">Room Type</label>
+          <input type="text" class="form-control" name="roomType" id="field_roomType" data-cy="roomType" formControlName="roomType" />
+          <div *ngIf="editForm.get('roomType')!.invalid && (editForm.get('roomType')!.dirty || editForm.get('roomType')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('roomType')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pocApp.room.resident" for="field_resident">Resident</label>
+          <select class="form-control" id="field_resident" data-cy="resident" name="resident" formControlName="resident">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="residentOption.id === editForm.get('resident')!.value?.id ? editForm.get('resident')!.value : residentOption"
+              *ngFor="let residentOption of residentsSharedCollection; trackBy: trackResidentById"
+            >
+              {{ residentOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
