@@ -1,19 +1,27 @@
+version: '3'
 services:
-  poc:
-    image: poc
-    environment:
-      - _JAVA_OPTIONS=-Xmx512m -Xms256m
-      - SPRING_PROFILES_ACTIVE=prod,api-docs
-      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
-      - SPRING_DATASOURCE_URL=jdbc:mysql://poc-mysql:3306/poc?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-      - SPRING_LIQUIBASE_URL=jdbc:mysql://poc-mysql:3306/poc?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-      - JHIPSTER_SLEEP=30
+  my-web-jhipster:
+    build: .
+    command: ./mvnw
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
     ports:
-      - '8080:8080'
-  poc-mysql:
-    image: mysql:8.0.28
-    platform: linux/x86_64
+      - "8080:8080"
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_DATABASE=poc
-    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+      SPRING_DATASOURCE_URL: jdbc:mysql://my-database-jhip:3306/MYDATABASE?autoReconnect=true&useSSL=false
+    depends_on:
+       - my-database-jhip
+  my-database-jhip:
+    image: mysql:latest
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d
+    container_name: db
+    command: --authentication_policy=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: MYDATABASE
+    cap_add:
+      - SYS_NICE
+    ports:
+      - "3306:3306"

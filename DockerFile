@@ -1,8 +1,0 @@
-FROM ubuntu:18.04
-MAINTAINER ksp27695.kp@gmail.com
-
-RUN apt-get update && apt-get install -y curl software-properties-common
-RUN apt install openjdk-11-jre-headless -y
-RUN apt install nodejs -y
-RUN apt install mysql-server -y
-RUN jhipster jdl poc.jdl && ./mvnw
